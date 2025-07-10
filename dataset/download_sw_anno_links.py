@@ -41,7 +41,8 @@ REQUIRED = [
 ]
 book_dir ="smashword_data/anno"
 book_num = 100
-search_url_pt = 'https://www.smashwords.com/books/category/1/downloads/0/free/medium/{}'
+#search_url_pt = 'https://www.smashwords.com/books/category/1/downloads/0/free/medium/{}'
+search_url_pt = 'https://www.smashwords.com/shelves/home/1/free/medium/{}'
 search_urls = [search_url_pt.format(i) for i in range(0,book_num*2,20)]
 
 num_words_pt = re.compile(r'Words: (\d+)')
