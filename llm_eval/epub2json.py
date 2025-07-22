@@ -42,7 +42,7 @@ if __name__ == "__main__":
         chapters_data = extract_chapters(epub_path)
         # Convert to JSON string if needed
         json_output = json.dumps(chapters_data, indent=2, ensure_ascii=False)
-        json_path = os.path.join(args.json_dir, book_name.replace('epub' 'json'))
+        json_path = os.path.join(args.json_dir, book_name.replace('epub','json'))
         # Optionally, write to file
         with open(json_path, 'w', encoding='utf-8') as f:
             f.write(json_output)
