@@ -20,12 +20,13 @@ def extract_chapters(epub_path):
                     break
 
             # Extract all paragraphs
-            paragraphs = [p.get_text(strip=True) for p in soup.find_all('p') if p.get_text(strip=True)]
+            paragraphs = [{'paragraph':p.get_text(strip=True)}
+                          for p in soup.find_all('p') if p.get_text(strip=True)]
 
             # Only include if there are paragraphs (skip TOC, blank sections, etc.)
             if paragraphs:
                 chapters.append({
-                    'title': chapter_title or 'Untitled Chapter',
+                    'chapter': chapter_title or 'Untitled Chapter',
                     'paragraphs': paragraphs
                 })
 
