@@ -24,6 +24,7 @@ def extract_chapters(epub_path):
             # Extract all paragraphs
             #paragraphs = [{'paragraph':p.get_text(strip=True)}
             #              for p in soup.find_all('p') if p.get_text(strip=True)]
+            paragraphs=[]
             for p in soup.find_all('p'):
                 if p.get_text(strip=True):
                     paragraphs.append({'paragraph':p.get_text(strip=True),
