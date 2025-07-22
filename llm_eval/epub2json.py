@@ -1,7 +1,7 @@
 import ebooklib
 from ebooklib import epub
 from bs4 import BeautifulSoup
-import json,argparse
+import json,argparse,os
 
 def extract_chapters(epub_path):
     book = epub.read_epub(epub_path)
