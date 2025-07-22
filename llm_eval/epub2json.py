@@ -5,7 +5,9 @@ import json,argparse,os
 
 def extract_chapters(epub_path):
     book = epub.read_epub(epub_path)
+    book_name = os.path.splitext(os.path.basename(epub_path))[0]
     chapters = []
+    para_index=0
 
     for item in book.get_items():
         if item.get_type() == ebooklib.ITEM_DOCUMENT:
@@ -20,11 +22,17 @@ def extract_chapters(epub_path):
                     break
 
             # Extract all paragraphs
-            paragraphs = [{'paragraph':p.get_text(strip=True)}
-                          for p in soup.find_all('p') if p.get_text(strip=True)]
+            #paragraphs = [{'paragraph':p.get_text(strip=True)}
+            #              for p in soup.find_all('p') if p.get_text(strip=True)]
+            for p in soup.find_all('p'):
+                if p.get_text(strip=True):
+                    paragraphs.append({'paragraph':p.get_text(strip=True),
+                                       'paragraph_index':f'{book_name}-{para_index}',
+                                       'book_name':book_name})
+                    para_index+=1
 
             # Only include if there are paragraphs (skip TOC, blank sections, etc.)
-            if paragraphs:
+            if chapter_title and chapter_title != 'Table of Contents' and paragraphs:
                 chapters.append({
                     'chapter': chapter_title or 'Untitled Chapter',
                     'paragraphs': paragraphs
