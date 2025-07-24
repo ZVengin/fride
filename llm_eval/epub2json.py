@@ -33,7 +33,8 @@ def extract_chapters(epub_path):
                     para_index+=1
 
             # Only include if there are paragraphs (skip TOC, blank sections, etc.)
-            if chapter_title and chapter_title != 'Table of Contents' and paragraphs:
+            #if chapter_title and chapter_title != 'Table of Contents' and paragraphs:
+            if paragraphs:
                 chapters.append({
                     'chapter': chapter_title or 'Untitled Chapter',
                     'paragraphs': paragraphs
