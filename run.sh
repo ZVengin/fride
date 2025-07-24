@@ -17,7 +17,7 @@ convert_format="python epub2json.py \
 annotate_mode="python annotate_llm_eval_book.py \
   --sour_dir data/smashwords_json \
   --target_dir data/smashwords_wmode \
-  --mode_checkpoint ../writing_mode_classifier"
+  --mode_checkpoint writing_mode_classifier"
 
 code_dir=$(pwd)
 
