@@ -5,7 +5,7 @@ from torch.utils.data import Dataset
 from datasets import load_dataset
 from transformers import AutoTokenizer,AutoModelForSequenceClassification, TrainingArguments, Trainer, AutoConfig
 from transformers import BertTokenizer,BertForSequenceClassification
-from datasets import metric
+#from datasets import metric
 from sklearn.metrics import precision_recall_fscore_support
 import evaluate
 
