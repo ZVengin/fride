@@ -17,7 +17,8 @@ def anno_format_conversion(sour_file, target_file):
             })
 
     with open(target_file, 'w') as f:
-        json.dump(records,f,indent=2)
+        records = '\n'.join([json.dumps(r) for r in records])
+        f.write(records)
 
 
 
