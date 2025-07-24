@@ -29,6 +29,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     tmp_dir = os.path.join(args.target_dir, 'tmp')
+
+    os.makedirs(args.target_dir, exist_ok=True)
+    os.makedirs(tmp_dir, exist_ok=True)
     for filename in os.listdir(args.sour_dir):
         sour_file = os.path.join(args.sour_dir, filename)
         tmp_file = os.path.join(tmp_dir, filename)

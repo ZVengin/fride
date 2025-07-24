@@ -46,6 +46,8 @@ if __name__ == "__main__":
     parser.add_argument('--epub_dir', type=str, required=True)
     parser.add_argument('--json_dir', type=str, required=True)
     args = parser.parse_args()
+    os.makedirs(args.json_dir, exist_ok=True)
+
 
     for book_name in os.listdir(args.epub_dir):
         epub_path = os.path.join(args.epub_dir, book_name)
