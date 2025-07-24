@@ -9,7 +9,7 @@ def anno_format_conversion(sour_file, target_file):
 
     records =[]
     for chapter in data:
-        for paragraph in chapter.values():
+        for paragraph in chapter['paragraphs']:
             records.append({
                 'target': paragraph['paragraph'],
                 'paragraph_index': paragraph['paragraph_index'],
