@@ -21,4 +21,4 @@ annotate_mode="python annotate_llm_eval_book.py \
 
 code_dir=$(pwd)
 
-singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "cd /tmp/code/llm_eval && ${convert_format} && ${annotate_mode}"
+singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${convert_format} && ${annotate_mode}"
