@@ -21,4 +21,4 @@ annotate_mode="python annotate_llm_eval_book.py \
 
 code_dir=$(pwd)/..
 
-singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/style_project.sif bash -c "${convert_format} && ${annotate_mode}"
+singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/style_project.sif bash -c "cd /tmp/code && ${convert_format} && ${annotate_mode}"
