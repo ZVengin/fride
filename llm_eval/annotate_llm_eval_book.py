@@ -1,6 +1,6 @@
 import json, argparse, sys, os
 dir_path = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(dir_path,'./../dataset')
+sys.path.append(os.path.join(dir_path,'./../dataset'))
 from annotate_writing_mode import annotate_book_corpus
 
 def anno_format_conversion(sour_file, target_file):
