@@ -38,8 +38,7 @@ def extract_chapters(epub_path):
                     'chapter': chapter_title or 'Untitled Chapter',
                     'paragraphs': paragraphs
                 })
-
-    return chapters
+    return chapters[2:]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
