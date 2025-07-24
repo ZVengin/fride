@@ -1,0 +1,16 @@
+#!/bin/bash
+
+module load singularity
+
+convert_format="python epub2json.py \
+  --epub_dir data/smashwords_epub \
+  --json_dir data/smashwords_json"
+
+annotate_mode="python annotate_llm_eval_book.py \
+  --sour_dir data/smashwords_json \
+  --target_dir data/smashwords_wmode \
+  --mode_checkpoint ../writing_mode_classifier"
+
+code_dir=$(pwd)/..
+
+singularity shell --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code,${magictools}:/tmp/magictools  ${code_dir}/style_project.sif bash -c "${convert_format} && ${annotate_mode}"
