@@ -19,6 +19,6 @@ annotate_mode="python annotate_llm_eval_book.py \
   --target_dir data/smashwords_wmode \
   --mode_checkpoint ../writing_mode_classifier"
 
-code_dir=$(pwd)/..
+code_dir=$(pwd)
 
 singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/style_project.sif bash -c "cd /tmp/code/llm_eval && ${convert_format} && ${annotate_mode}"
