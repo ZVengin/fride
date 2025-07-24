@@ -36,4 +36,4 @@ if __name__ == '__main__':
         sour_file = os.path.join(args.sour_dir, filename)
         tmp_file = os.path.join(tmp_dir, filename)
         anno_format_conversion(sour_file, tmp_file)
-        annotate_book_corpus(args.tmp_dir, args.target_dir,args.model_checkpoint )
+        annotate_book_corpus(tmp_dir, args.target_dir,args.model_checkpoint )
