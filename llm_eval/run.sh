@@ -3,7 +3,7 @@
 #PJM -L jobenv=singularity
 #PJM -g gk77
 #PJM -j
-#PJM -L elapse=8:00:00
+#PJM -L elapse=00:30:00
 #PJM -L gpu=1
 #PJM -N eval_gpt
 #PJM -o run_eval_gpt_split_0
