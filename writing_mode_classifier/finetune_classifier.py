@@ -2,11 +2,15 @@ import json,optuna,logging,sys,torch,argparse,random,torch
 import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset
-from datasets import load_dataset, load_metric
+from datasets import load_dataset
 from transformers import AutoTokenizer,AutoModelForSequenceClassification, TrainingArguments, Trainer, AutoConfig
 from transformers import BertTokenizer,BertForSequenceClassification
 from datasets import metric
 from sklearn.metrics import precision_recall_fscore_support
+import evaluate
+
+
+
 #model_checkpoint = "bert-base-uncased"
 #model_checkpoint = "xlnet-base-cased"
 model_checkpoint = "roberta-base"
@@ -292,7 +296,9 @@ eval_scores,test_scores=[],[]
 if __name__=='__main__':
     parser = get_parser()
     args=parser.parse_args()
-    metric = load_metric('f1',experiment_id=f'{args.split_name}-{args.trial_name}-{args.train_size}')
+    experiment_id = f'{args.split_name}-{args.trial_name}-{args.train_size}'
+    metric = evaluate.load('f1')  # `experiment_id` is not a parameter in the new API
+    #metric = load_metric('f1',experiment_id=f'{args.split_name}-{args.trial_name}-{args.train_size}')
     specified_model_name = specified_model_name_temp.format(args.split_name,args.trial_name)
 
     ##################
