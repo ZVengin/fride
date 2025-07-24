@@ -8,8 +8,8 @@ def anno_format_conversion(sour_file, target_file):
         data = json.load(f)
 
     records =[]
-    for chapter, paragraphs in data.items():
-        for paragraph in paragraphs:
+    for chapter in data:
+        for paragraph in chapter.values():
             records.append({
                 'target': paragraph['paragraph'],
                 'paragraph_index': paragraph['paragraph_index'],
