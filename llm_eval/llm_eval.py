@@ -20,30 +20,28 @@ client = OpenAI(api_key=key)
 
 
 
-def identify_speaker(text_snippet, utterance, characters):
+def generate_paragraph(context, mode):
     """
     Call GPT-4 to identify the most likely speaker of `utterance`
     in the given `text_snippet`.
     """
-    character_list = "\n".join(
-        f"{name}: {', '.join(aliases) if isinstance(aliases, list) else aliases}"
-        for name, aliases in characters.items()
-    )
 
     system_msg = (
         "You are an expert in literary analysis. "
-        "Given context, utterances, and a dictionary containing character names and their corresponding aliases, "
-        "return the most likely speaker of the utterances in JSON: "
-        '{"speaker": "<Character Name>"}'
+        "Given the context of a story,"
+        "You are required to write the next paragraph using the specified fiction-writing mode. "
+        "The fiction-writing mode includes Action, Description, and Dialogue."
+        "   Action: describe the actions performed by characters."
+        "   Description: describe the appearance of characters or describe the environment."
+        "   Dialogue: depict the spoken exchange between characters."
+        "The next paragraph should be returned in JSON: "
+        '{"next_paragraph": "<Next Paragraph>"}'
     )
     user_msg = f"""### Context:
-{text_snippet}
+{context}
 
-### Utterances:
-{utterance}
-
-### Character name and their corresponding aliases:
-{character_list}
+### Fiction-writing mode:
+{mode}
 """
     #logger.info(system_msg)
     #logger.info(user_msg)
@@ -56,13 +54,13 @@ def identify_speaker(text_snippet, utterance, characters):
     )
 
     content = response.choices[0].message.content.strip()
-    pattern = r'\{\s*"speaker"\s*:\s*"([^"]+)"\s*\}'
+    pattern = r'\{\s*"next_paragraph"\s*:.*?\}'
 
     match = re.search(pattern, content)
     if match:
-        speaker_dict = {"speaker": match.group(1)}
-        logger.info(speaker_dict)
-        return speaker_dict.get("speaker")
+        next_para_dict = json.loads(match.group(0))
+        logger.info(next_para_dict)
+        return next_para_dict.get("next_paragraph")
     else:
         logger.info("⚠️  Failed to parse model response:", content)
         return None
@@ -78,8 +76,8 @@ def eval_dataset(dataset_path, result_path):
         with open(result_path, encoding="utf-8") as f:
             records = json.load(f)
         logger.info(f"Loading previous results from {result_path}")
-        done_ids = {r["id"] for r in records}
-        todo_dataset = [inst for inst in dataset if inst["id"] not in done_ids]
+        done_ids = {r["paragraph_index"] for r in records}
+        todo_dataset = [inst for inst in dataset if inst["paragraph_index"] not in done_ids]
     else:
         records = []
         todo_dataset = dataset
@@ -91,39 +89,18 @@ def eval_dataset(dataset_path, result_path):
     #todo_dataset = todo_dataset[:5]
 
     for idx, inst in enumerate(todo_dataset, 1):
-        # Build full context text
-        para_texts = [
-            p.get("paragraph")
-            for p in (
-                inst.get("preceding_paragraphs", [])
-                + inst.get("dialogue", [])
-                + inst.get("succeeding_paragraphs", [])
-            )
-        ]
-        text = "\n".join(t for t in para_texts if t)  # drop Nones
-
-        # The target utterance we need to attribute
-        utterance = [qd['quote'] for qd in inst["dialogue"][0]["utterance"]]
-        utterance = "\n".join(utterance)
-        qids = [qd['quote_id'] for qd in inst["dialogue"][0]["utterance"]]
-        labels = [inst["dialogue"][0]["utterance"][0]['speaker']]
-        character_dict = {aliases[0]:aliases for aliases in inst['character']['id2names'].values()}
-
-        speaker = identify_speaker(
-            text_snippet=text,
-            utterance=utterance,
-            characters=character_dict,
+        gen_para = generate_paragraph(
+            context=inst.get("context"),
+            mode=inst.get('mode')
         )
 
-        if speaker:
+        if gen_para:
             records.append(
                 {
-                    "id": inst["id"],
-                    "predict_label": [speaker],
-                    "predict_label_id": [GetCharId(inst["character"], speaker)],
-                    "label": labels,
-                    "label_id": [GetCharId(inst["character"], label) for label in labels],
-                    "quote_id": [qids]
+                    "paragraph_index": inst.get("paragraph_index"),
+                    "generated_paragraph": gen_para,
+                    "context": inst.get("context"),
+                    'mode': inst.get('mode')
                 }
             )
 
