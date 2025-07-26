@@ -1,5 +1,5 @@
 #!/bin/bash
-#PJM -L rscgrp=share-short
+#PJM -L rscgrp=share
 #PJM -L jobenv=singularity
 #PJM -g gk77
 #PJM -j
