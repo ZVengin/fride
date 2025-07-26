@@ -19,6 +19,11 @@ annotate_mode="python annotate_llm_eval_book.py \
   --target_dir data/smashwords_wmode \
   --model_checkpoint /tmp/code/writing_mode_classifier"
 
+create_eval_set="python create_eval_dataset.py \
+  --sour_dir data/smashwords_wmode \
+  --target_dir data/eval_set"
+
 code_dir=$(pwd)
 
-singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${convert_format} && ${annotate_mode}"
+#singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${convert_format} && ${annotate_mode}"
+singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${create_eval_set}"
