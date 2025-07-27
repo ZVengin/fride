@@ -20,7 +20,7 @@ def construct_instance(data, context_window_size=1):
 
 
 
-def filter_instances(instances, min_len=100):
+def filter_instances(instances, min_len=50):
     filtered_instances = []
     for instance in instances:
         context_len = len(instance['context'].split())
