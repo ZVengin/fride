@@ -5,10 +5,10 @@ def construct_instance(data, context_window_size=1):
     instances = []
     for i in range(1, len(data)):
         context = data[max(i-context_window_size,0):i]
-        context_text = '\n'.join([p.get('paragraph') for p in context])
+        context_text = '\n'.join([p.get('target') for p in context])
         target = data[i]
         target_label = target.get('target_label')
-        target_text = target.get('paragraph')
+        target_text = target.get('target')
         instances.append({
             'context': context_text,
             'mode':target_label,
@@ -43,7 +43,7 @@ def extract_dialogue(paras):
                 new_para = {
                     'idx':dialogue[0].get('idx'),
                     'paragraph_index':dialogue[0].get('paragraph_index'),
-                    'paragraph': '\n'.join([p.get('paragraph') for p in dialogue]),
+                    'paragraph': '\n'.join([p.get('target') for p in dialogue]),
                     'target_label':'Dialogue'
                 }
                 new_parags.append(new_para)
@@ -53,7 +53,7 @@ def extract_dialogue(paras):
         new_para = {
             'idx': dialogue[0].get('idx'),
             'paragraph_index': dialogue[0].get('paragraph_index'),
-            'paragraph': '\n'.join([p.get('paragraph') for p in dialogue]),
+            'paragraph': '\n'.join([p.get('target') for p in dialogue]),
             'target_label': 'Dialogue'
         }
         new_parags.append(new_para)
@@ -77,7 +77,7 @@ if __name__ == '__main__':
                 data = []
                 for line in f.readlines():
                     line = json.loads(line)
-                    if line.get('paragraph') is not None:
+                    if line.get('target') is not None:
                         data.append(line)
             print(len(data))
             data = extract_dialogue(data)
