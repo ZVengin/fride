@@ -6,7 +6,7 @@ def construct_instance(data, context_window_size=1):
     for i in range(1, len(data)):
         context = data[max(i-context_window_size,0):i]
         context_text = '\n'.join([p.get('target') for p in context])
-        context_mode = ','.join([p.get('mode') for p in context])
+        context_mode = ','.join([p.get('target_label') for p in context])
         target = data[i]
         target_label = target.get('target_label')
         target_text = target.get('target')
