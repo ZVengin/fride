@@ -33,7 +33,7 @@ def annotate_book(pair_path, anno_pair_path, eval_path, trainer):
     logger.info(f'==>>> save annotated pairs to file :{anno_pair_path}')
     write_jsonl(pairs,anno_pair_path)
     with open(eval_path,'w') as f:
-        json.dump(test_result,f)
+        json.dump(str(test_result),f)
 
 
 
