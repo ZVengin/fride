@@ -85,6 +85,7 @@ if __name__ == '__main__':
             dataset+=filtered_instances
 
     mode_counter = Counter([inst.get('mode') for inst in dataset])
+    print(mode_counter)
     min_mode_num = min(mode_counter.values())
     mode_to_insts = defaultdict(list)
     for inst in dataset:
