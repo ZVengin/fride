@@ -7,7 +7,7 @@ def construct_instance(data, context_window_size=1):
         context = data[max(i-context_window_size,0):i]
         context_text = '\n'.join([p.get('paragraph') for p in context])
         target = data[i]
-        target_mode = target.get('mode')
+        target_mode = target.get('target_label')
         target_text = target.get('paragraph')
         instances.append({
             'context': context_text,
@@ -36,7 +36,7 @@ def extract_dialogue(paras):
     new_parags =[]
     dialogue=[]
     for para in paras:
-        if para.get('mode') == 'Dialogue':
+        if para.get('target_label') == 'Dialogue':
             dialogue.append(para)
         else:
             if len(dialogue)>0:
@@ -84,12 +84,11 @@ if __name__ == '__main__':
             filtered_instances = filter_instances(instances)
             dataset+=filtered_instances
 
-    mode_counter = Counter([inst.get('mode') for inst in dataset])
-    print(mode_counter)
+    mode_counter = Counter([inst.get('target_label') for inst in dataset])
     min_mode_num = min(mode_counter.values())
     mode_to_insts = defaultdict(list)
     for inst in dataset:
-        mode_to_insts[inst['mode']].append(inst)
+        mode_to_insts[inst['target_label']].append(inst)
 
     new_dataset = []
     for mode in ['Dialogue','Description','Action']:
