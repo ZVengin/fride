@@ -12,7 +12,7 @@ def anno_format_conversion(sour_file, target_file):
         records.append({
             'target': inst['generated_paragraph'],
             'label': inst['mode'],
-            'paragraph_index': paragraph['paragraph_index'],
+            'paragraph_index': inst['paragraph_index'],
             'idx':len(records)
         })
 
