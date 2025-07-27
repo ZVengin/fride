@@ -96,6 +96,7 @@ if __name__ == '__main__':
     new_dataset = []
     for mode in ['Dialogue','Description','Action']:
         new_dataset += random.sample(mode_to_insts[mode],k=200)
+    random.shuffle(new_dataset)
 
     with open(os.path.join(args.target_dir, 'eval_dataset.json'), 'w') as f:
         json.dump(new_dataset,f, indent=2)
