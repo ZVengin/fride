@@ -68,7 +68,7 @@ def eval_dataset(dataset_path, result_path):
     """Run inference over the dataset and save per-instance records."""
     with open(dataset_path, encoding="utf-8") as f:
         dataset = json.load(f)
-    dataset = dataset[:5]
+    #dataset = dataset[:5]
 
     if os.path.exists(result_path):
         with open(result_path, encoding="utf-8") as f:
