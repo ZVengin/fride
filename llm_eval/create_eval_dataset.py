@@ -1,4 +1,4 @@
-import json,os,argparse
+import json,os,argparse,random
 from collections import Counter, defaultdict
 
 def construct_instance(data, context_window_size=1):
