@@ -32,6 +32,34 @@ def filter_instances(instances, min_len=100):
     return filtered_instances
 
 
+def extract_dialogue(paras):
+    new_parags =[]
+    dialogue=[]
+    for para in paras:
+        if para.get('mode') == 'Dialogue':
+            dialogue.append(para)
+        else:
+            if len(dialogue)>0:
+                new_para = {
+                    'idx':dialogue[0].get('idx'),
+                    'paragraph_index':dialogue[0].get('paragraph_index'),
+                    'paragraph': '\n'.join([p.get('paragraph') for p in dialogue]),
+                    'mode':'Dialogue'
+                }
+                new_parags.append(new_para)
+                dialogue = []
+            new_parags.append(para)
+    if len(dialogue) > 0:
+        new_para = {
+            'idx': dialogue[0].get('idx'),
+            'paragraph_index': dialogue[0].get('paragraph_index'),
+            'paragraph': '\n'.join([p.get('paragraph') for p in dialogue]),
+            'mode': 'Dialogue'
+        }
+        new_parags.append(new_para)
+    return new_parags
+
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -46,6 +74,7 @@ if __name__ == '__main__':
         if os.path.isfile(os.path.join(args.sour_dir, filename)):
             with open(os.path.join(args.sour_dir, filename), 'r') as f:
                 data = json.load(f)
+            data = extract_dialogue(data)
             instances = construct_instance(data, context_window_size=args.context_window_size)
             filtered_instances = filter_instances(instances)
             dataset+=filtered_instances
