@@ -7,9 +7,6 @@ import os
 import sys
 import re
 import logging
-dir_path = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.join(dir_path, "./../src"))
-from utils import GetCharId
 from openai import OpenAI
 logging.basicConfig(level=logging.DEBUG,format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
