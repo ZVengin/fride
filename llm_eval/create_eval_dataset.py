@@ -43,7 +43,7 @@ def extract_dialogue(paras):
                 new_para = {
                     'idx':dialogue[0].get('idx'),
                     'paragraph_index':dialogue[0].get('paragraph_index'),
-                    'paragraph': '\n'.join([p.get('target') for p in dialogue]),
+                    'target': '\n'.join([p.get('target') for p in dialogue]),
                     'target_label':'Dialogue'
                 }
                 new_parags.append(new_para)
@@ -53,7 +53,7 @@ def extract_dialogue(paras):
         new_para = {
             'idx': dialogue[0].get('idx'),
             'paragraph_index': dialogue[0].get('paragraph_index'),
-            'paragraph': '\n'.join([p.get('target') for p in dialogue]),
+            'target': '\n'.join([p.get('target') for p in dialogue]),
             'target_label': 'Dialogue'
         }
         new_parags.append(new_para)
