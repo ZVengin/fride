@@ -1,10 +1,11 @@
 #!/bin/bash
-#PJM -L rscgrp=share
+#PJM -L rscgrp=short-o
 #PJM -L jobenv=singularity
 #PJM -g gk77
 #PJM -j
 #PJM -L elapse=08:00:00
-#PJM -L gpu=1
+##PJM -L gpu=1
+#PJM -L node=1
 #PJM -N eval_gpt
 #PJM -o run_eval_gpt_split_0
 
@@ -34,6 +35,6 @@ eval_result="python eval_llm_result.py \
 code_dir=$(pwd)
 
 #singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${convert_format} && ${annotate_mode}"
-singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${create_eval_set}"
-singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && mkdir -p /tmp/code/llm_eval/outs && cd /tmp/code/llm_eval && ${eval_llm}"
-singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && mkdir -p /tmp/code/llm_eval/outs && cd /tmp/code/llm_eval && ${eval_result}"
+singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-arm64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${create_eval_set}"
+singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-arm64.sif bash -c "export WANDB_DISABLED=true && mkdir -p /tmp/code/llm_eval/outs && cd /tmp/code/llm_eval && ${eval_llm}"
+singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-arm64.sif bash -c "export WANDB_DISABLED=true && mkdir -p /tmp/code/llm_eval/outs && cd /tmp/code/llm_eval && ${eval_result}"
