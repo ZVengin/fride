@@ -7,11 +7,11 @@ def construct_instance(data, context_window_size=1):
         context = data[max(i-context_window_size,0):i]
         context_text = '\n'.join([p.get('paragraph') for p in context])
         target = data[i]
-        target_mode = target.get('target_label')
+        target_label = target.get('target_label')
         target_text = target.get('paragraph')
         instances.append({
             'context': context_text,
-            'mode':target_mode,
+            'mode':target_label,
             'target':target_text,
             'paragraph_index': target.get('paragraph_index'),
             'idx': target.get('idx')
@@ -44,7 +44,7 @@ def extract_dialogue(paras):
                     'idx':dialogue[0].get('idx'),
                     'paragraph_index':dialogue[0].get('paragraph_index'),
                     'paragraph': '\n'.join([p.get('paragraph') for p in dialogue]),
-                    'mode':'Dialogue'
+                    'target_label':'Dialogue'
                 }
                 new_parags.append(new_para)
                 dialogue = []
@@ -54,7 +54,7 @@ def extract_dialogue(paras):
             'idx': dialogue[0].get('idx'),
             'paragraph_index': dialogue[0].get('paragraph_index'),
             'paragraph': '\n'.join([p.get('paragraph') for p in dialogue]),
-            'mode': 'Dialogue'
+            'target_label': 'Dialogue'
         }
         new_parags.append(new_para)
     return new_parags
@@ -84,11 +84,11 @@ if __name__ == '__main__':
             filtered_instances = filter_instances(instances)
             dataset+=filtered_instances
 
-    mode_counter = Counter([inst.get('target_label') for inst in dataset])
+    mode_counter = Counter([inst.get('mode') for inst in dataset])
     min_mode_num = min(mode_counter.values())
     mode_to_insts = defaultdict(list)
     for inst in dataset:
-        mode_to_insts[inst['target_label']].append(inst)
+        mode_to_insts[inst['mode']].append(inst)
 
     new_dataset = []
     for mode in ['Dialogue','Description','Action']:
