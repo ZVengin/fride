@@ -74,7 +74,9 @@ if __name__ == '__main__':
     for filename in os.listdir(args.sour_dir):
         if os.path.isfile(os.path.join(args.sour_dir, filename)):
             with open(os.path.join(args.sour_dir, filename), 'r') as f:
-                data = json.load(f)
+                data = []
+                for line in f.readlines():
+                    data.append(json.loads(line))
             data = extract_dialogue(data)
             instances = construct_instance(data, context_window_size=args.context_window_size)
             filtered_instances = filter_instances(instances)
