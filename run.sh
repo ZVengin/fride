@@ -23,7 +23,12 @@ create_eval_set="python create_eval_dataset.py \
   --sour_dir data/smashwords_wmode \
   --target_dir data/eval_set"
 
+eval_llm="python llm_eval.py \
+  --dataset_path data/eval_set/eval_dataset.json \
+  --result_path outs/llm_eval_result.json"
+
 code_dir=$(pwd)
 
 #singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${convert_format} && ${annotate_mode}"
-singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${create_eval_set}"
+#singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${create_eval_set}"
+singularity exec --nv --home ${code_dir}/container/kelvin --workdir ${code_dir} --bind ${code_dir}:/tmp/code  ${code_dir}/python-313-amd64.sif bash -c "export WANDB_DISABLED=true && cd /tmp/code/llm_eval && ${eval_llm}"
