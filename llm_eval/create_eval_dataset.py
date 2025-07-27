@@ -76,7 +76,9 @@ if __name__ == '__main__':
             with open(os.path.join(args.sour_dir, filename), 'r') as f:
                 data = []
                 for line in f.readlines():
-                    data.append(json.loads(line))
+                    line = json.loads(line)
+                    if line.get('paragraph') is not None:
+                        data.append(line)
             data = extract_dialogue(data)
             instances = construct_instance(data, context_window_size=args.context_window_size)
             filtered_instances = filter_instances(instances)
