@@ -55,9 +55,13 @@ def generate_paragraph(context, mode):
 
     match = re.search(pattern, content)
     if match:
-        next_para_dict = json.loads(match.group(0))
-        logger.info(next_para_dict)
-        return next_para_dict.get("next_paragraph")
+        try:
+            next_para_dict = json.loads(match.group(0))
+            logger.info(next_para_dict)
+            return next_para_dict.get("next_paragraph")
+        except Exception as e:
+            logger.info(f"⚠️ {e}")
+            return None
     else:
         logger.info("⚠️  Failed to parse model response:", content)
         return None
