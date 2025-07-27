@@ -79,6 +79,7 @@ if __name__ == '__main__':
                     line = json.loads(line)
                     if line.get('paragraph') is not None:
                         data.append(line)
+            print(len(data))
             data = extract_dialogue(data)
             instances = construct_instance(data, context_window_size=args.context_window_size)
             filtered_instances = filter_instances(instances)
