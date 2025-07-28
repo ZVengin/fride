@@ -1,4 +1,6 @@
-import json, argparse, sys, os
+import json, argparse, sys, os,logging
+logging.basicConfig(level=logging.INFO,format='%(asctime)s %(message)s')
+logger = logging.getLogger(__name__)
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(dir_path,'./../dataset'))
 from annotate_writing_mode import load_predict_model
