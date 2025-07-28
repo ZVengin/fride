@@ -3,7 +3,7 @@ logging.basicConfig(level=logging.INFO,format='%(asctime)s %(message)s')
 logger = logging.getLogger(__name__)
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(dir_path,'./../dataset'))
-from annotate_writing_mode import load_predict_model
+from annotate_writing_mode import load_predict_model, read_jsonl
 
 def anno_format_conversion(sour_file, target_file):
     with open(sour_file) as f:
