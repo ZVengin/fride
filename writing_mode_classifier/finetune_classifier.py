@@ -55,7 +55,7 @@ def compute_metrics(eval_pred):
     metric = evaluate.load("accuracy")
     predictions, labels = eval_pred
     predictions = np.argmax(predictions, axis=1)
-    return metric.compute(predictions=predictions, references=labels,average='weighted')
+    return metric.compute(predictions=predictions, references=labels)
 
 
 def run_trainer(args, dataset, hyper_search=False, hyper_space=None, save_path='best_run.json', do_predict=False):
