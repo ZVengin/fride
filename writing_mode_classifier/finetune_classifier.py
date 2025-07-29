@@ -52,6 +52,7 @@ def load_data(train_file=None,val_file=None,test_file=None, format='csv'):
 
 
 def compute_metrics(eval_pred):
+    metric = evaluate.load("accuracy")
     predictions, labels = eval_pred
     predictions = np.argmax(predictions, axis=1)
     return metric.compute(predictions=predictions, references=labels,average='weighted')
