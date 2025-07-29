@@ -4,6 +4,8 @@ logger = logging.getLogger(__name__)
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(dir_path,'./../dataset'))
 from annotate_writing_mode import load_predict_model, read_jsonl, predict_test_set, write_jsonl
+label2id={'Dialogue':0,'Action':1,'Description':2,'Unknown':3}
+
 
 def anno_format_conversion(sour_file, target_file):
     with open(sour_file) as f:
@@ -13,7 +15,7 @@ def anno_format_conversion(sour_file, target_file):
     for inst in data:
         records.append({
             'target': inst['generated_paragraph'],
-            'label': inst['mode'],
+            'label': label2id[inst['mode']],
             'paragraph_index': inst['paragraph_index'],
             'idx':len(records)
         })
