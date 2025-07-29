@@ -31,7 +31,7 @@ def load_model():
 
 def process_dataset(dataset,tokenizer):
     def preprocess_function(examples):
-        return tokenizer(examples['target'],truncation=True)
+        return tokenizer(examples['target'],truncation=True, padding=True)
 
     encoded_dataset=dataset.map(preprocess_function,batched=True)
     return encoded_dataset
