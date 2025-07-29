@@ -66,9 +66,49 @@ def generate_paragraph(context, mode):
         logger.info("⚠️  Failed to parse model response:", content)
         return None
 
+def generate_paragraph_wo_mode(context):
+    """
+    Call GPT-4 to identify the most likely speaker of `utterance`
+    in the given `text_snippet`.
+    """
 
+    system_msg = (
+        "You are an expert in literary writing. "
+        "Given the context of a story,"
+        "You are required to write the next paragraph."
+        "The next paragraph should be returned in JSON: "
+        '{"next_paragraph": "<Next Paragraph>"}'
+    )
+    user_msg = f"""### Context:
+{context}
+"""
+    #logger.info(system_msg)
+    #logger.info(user_msg)
+    response = client.chat.completions.create(
+        model='gpt-4.1',
+        messages=[
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": user_msg}
+        ]
+    )
 
-def eval_dataset(dataset_path, result_path):
+    content = response.choices[0].message.content.strip()
+    pattern = r'\{\s*"next_paragraph"\s*:.*?\}'
+
+    match = re.search(pattern, content)
+    if match:
+        try:
+            next_para_dict = json.loads(match.group(0))
+            logger.info(next_para_dict)
+            return next_para_dict.get("next_paragraph")
+        except Exception as e:
+            logger.info(f"⚠️ {e}")
+            return None
+    else:
+        logger.info("⚠️  Failed to parse model response:", content)
+        return None
+
+def eval_dataset(dataset_path, result_path, add_mode=True):
     """Run inference over the dataset and save per-instance records."""
     with open(dataset_path, encoding="utf-8") as f:
         dataset = json.load(f)
@@ -91,10 +131,13 @@ def eval_dataset(dataset_path, result_path):
     #todo_dataset = todo_dataset[:5]
 
     for idx, inst in enumerate(todo_dataset, 1):
-        gen_para = generate_paragraph(
-            context=inst.get("context"),
-            mode=inst.get('mode')
-        )
+        if add_mode:
+            gen_para = generate_paragraph(
+                context=inst.get("context"),
+                mode=inst.get('mode')
+            )
+        else:
+            gen_para = generate_paragraph_wo_mode(context=inst.get('context'))
 
         if gen_para:
             records.append(
@@ -121,6 +164,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset_path", type=str, required=True)
     parser.add_argument("--result_path", type=str, required=True)
+    parser.add_argument("--add_mode", action="store_true")
     args = parser.parse_args()
 
     eval_dataset(args.dataset_path, args.result_path)

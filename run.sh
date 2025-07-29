@@ -26,11 +26,11 @@ create_eval_set="python create_eval_dataset.py \
 
 eval_llm="python llm_eval.py \
   --dataset_path data/eval_set/eval_dataset.json \
-  --result_path outs/llm_eval_result.json"
+  --result_path outs/llm_eval_result_wo_mode.json"
 
 eval_result="python eval_llm_result.py \
-  --result_path outs/llm_eval_result.json \
-  --eval_path outs/eval_score.json \
+  --result_path outs/llm_eval_result_wo_mode.json \
+  --eval_path outs/eval_score_wo_mode.json \
   --model_checkpoint /tmp/code/writing_mode_classifier/model_checkpoint"
 code_dir=$(pwd)
 
