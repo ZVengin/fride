@@ -167,4 +167,4 @@ if __name__ == "__main__":
     parser.add_argument("--add_mode", action="store_true")
     args = parser.parse_args()
 
-    eval_dataset(args.dataset_path, args.result_path)
+    eval_dataset(args.dataset_path, args.result_path, add_mode=args.add_mode)
