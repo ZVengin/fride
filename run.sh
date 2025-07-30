@@ -29,8 +29,8 @@ eval_llm="python llm_eval.py \
   --result_path outs/llm_eval_result_wo_mode.json"
 
 eval_result="python eval_llm_result.py \
-  --result_path outs/llm_eval_result_wo_mode.json \
-  --eval_path outs/eval_score_wo_mode.json \
+  --result_path outs/llm_eval_result.json \
+  --eval_path outs/eval_score.json \
   --model_checkpoint /tmp/code/writing_mode_classifier/model_checkpoint"
 code_dir=$(pwd)
 
